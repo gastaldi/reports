@@ -88,10 +88,6 @@ public class BirtRenderTest {
         BirtSeamReport report = reportDefinition.fill(dataSource, params);
         pdfRenderer.render(report, baos);
         assertTrue("Report is empty", baos.size() > 0);
-        FileOutputStream fos = new FileOutputStream("D:/cu.pdf");
-        fos.write(baos.toByteArray());
-        fos.flush();
-        fos.close();
         DocumentTester tester = new DocumentTester(new ByteArrayInputStream(baos.toByteArray()));
         try {
             tester.assertPageCountEquals(3);
