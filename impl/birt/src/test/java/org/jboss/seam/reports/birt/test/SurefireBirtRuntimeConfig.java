@@ -18,7 +18,7 @@ package org.jboss.seam.reports.birt.test;
 
 import org.jboss.seam.reports.birt.BirtRuntimeConfig;
 
-public class TestBirtRuntimeConfig implements BirtRuntimeConfig {
+public class SurefireBirtRuntimeConfig implements BirtRuntimeConfig {
     @Override
     public String getBirtHome() {
         return "D:/temp/birt-runtime-2_6_2";
