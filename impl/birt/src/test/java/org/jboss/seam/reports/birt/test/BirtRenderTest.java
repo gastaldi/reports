@@ -85,4 +85,19 @@ public class BirtRenderTest {
             tester.close();
         }
     }
+    
+
+    @Test
+    public void renderAnother() throws ReportException, IOException {
+        Report report = loader.loadReport(sourceReport.getFile());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        pdfRenderer.render(report, baos);
+        assertTrue("Report is empty", baos.size() > 0);
+        DocumentTester tester = new DocumentTester(new ByteArrayInputStream(baos.toByteArray()));
+        try {
+            tester.assertPageCountEquals(1);
+        } finally {
+            tester.close();
+        }
+    }
 }

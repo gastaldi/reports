@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.seam.reports.birt.test;
+package org.jboss.seam.reports.birt;
 
 import java.util.logging.Level;
 
@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.jboss.seam.reports.birt.Birt;
+import org.jboss.seam.reports.birt.BirtRuntimeConfig;
 
 /**
  * This is needed by the app developer
@@ -39,9 +40,11 @@ public class BirtEngineProducer {
 
     @Produces @Birt
     @ApplicationScoped
-    public IReportEngine produceEngine() throws BirtException {
+    public IReportEngine produceEngine(BirtRuntimeConfig runtimeConfig) throws BirtException {
         EngineConfig config = new EngineConfig();
-        config.setLogConfig("D:/temp/birt-runtime-2_6_2/log", Level.FINEST);
+        config.setBIRTHome(runtimeConfig.getBirtHome());
+        config.setEngineHome(runtimeConfig.getEngineHome());
+        //config.setLogConfig("D:/temp/birt-runtime-2_6_2/log", Level.FINEST);
         try {
             Platform.startup(config); // If using RE API in Eclipse/RCP application this is not needed.
         } catch (BirtException e) {
