@@ -20,8 +20,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
@@ -30,10 +34,13 @@ import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.reports.Report;
 import org.jboss.seam.reports.ReportException;
-import org.jboss.seam.reports.ReportLoader;
 import org.jboss.seam.reports.ReportRenderer;
 import org.jboss.seam.reports.birt.Birt;
 import org.jboss.seam.reports.birt.BirtExtension;
+import org.jboss.seam.reports.birt.BirtSeamReport;
+import org.jboss.seam.reports.birt.BirtSeamReportDataSource;
+import org.jboss.seam.reports.birt.BirtSeamReportDefinition;
+import org.jboss.seam.reports.birt.BirtSeamReportLoader;
 import org.jboss.seam.reports.output.PDF;
 import org.jboss.seam.solder.resourceLoader.Resource;
 import org.jboss.shrinkwrap.api.ArchivePaths;
@@ -63,39 +70,31 @@ public class BirtRenderTest {
 
     @Inject
     @Resource("customers.rptdesign")
-    private URL sourceReport;
+    private InputStream sourceReport;
 
     @Inject
     @Birt
-    private ReportLoader loader;
+    private BirtSeamReportLoader loader;
 
     @Inject @Birt @PDF
     private ReportRenderer<Report> pdfRenderer;
 
     @Test
     public void renderReport() throws ReportException, IOException {
-        Report report = loader.loadReport(sourceReport.getFile());
+        BirtSeamReportDefinition reportDefinition = loader.loadReportDefinition(sourceReport);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        BirtSeamReportDataSource dataSource = new BirtSeamReportDataSource(new HashMap<String, Object>());
+        Map<String,Object> params = Collections.emptyMap(); 
+        BirtSeamReport report = reportDefinition.fill(dataSource, params);
         pdfRenderer.render(report, baos);
         assertTrue("Report is empty", baos.size() > 0);
+        FileOutputStream fos = new FileOutputStream("D:/cu.pdf");
+        fos.write(baos.toByteArray());
+        fos.flush();
+        fos.close();
         DocumentTester tester = new DocumentTester(new ByteArrayInputStream(baos.toByteArray()));
         try {
-            tester.assertPageCountEquals(1);
-        } finally {
-            tester.close();
-        }
-    }
-    
-
-    @Test
-    public void renderAnother() throws ReportException, IOException {
-        Report report = loader.loadReport(sourceReport.getFile());
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        pdfRenderer.render(report, baos);
-        assertTrue("Report is empty", baos.size() > 0);
-        DocumentTester tester = new DocumentTester(new ByteArrayInputStream(baos.toByteArray()));
-        try {
-            tester.assertPageCountEquals(1);
+            tester.assertPageCountEquals(3);
         } finally {
             tester.close();
         }

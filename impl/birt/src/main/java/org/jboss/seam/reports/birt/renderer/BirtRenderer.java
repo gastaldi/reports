@@ -20,7 +20,6 @@ import static org.jboss.seam.solder.reflection.AnnotationInspector.getAnnotation
 
 import java.io.OutputStream;
 
-import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
@@ -28,6 +27,7 @@ import javax.inject.Inject;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.jboss.seam.reports.ReportException;
 import org.jboss.seam.reports.ReportRenderer;
 import org.jboss.seam.reports.birt.Birt;
@@ -47,7 +47,8 @@ public class BirtRenderer implements ReportRenderer<BirtSeamReport> {
     @Inject
     private BeanManager bm;
 
-    @Inject @Birt
+    @Inject
+    @Birt
     private IReportEngine engine;
 
     @Override
@@ -56,29 +57,16 @@ public class BirtRenderer implements ReportRenderer<BirtSeamReport> {
         IReportDocument doc = report.getDelegate();
         IRenderTask task = engine.createRenderTask(doc);
         if ("PDF".equals(an.value())) {
-//            Map contextMap = null;
-//            PDFRenderOption options = null;
-//
-//            // Set Render context to handle url and image locataions, and apply to the
-//            // task
-//            renderContext = new HTMLRenderContext();
-//            renderContext.setImageDirectory("image");
-//            contextMap = new HashMap();
-//            contextMap.put(EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT, renderContext);
-//            task.setAppContext(contextMap);
-//
-//            // This will set the output file location, the format to rener to, and
-//            // apply to the task
-//            options = new HTMLRenderOption();
-//            options.setOutputFileName("c:/temp/output.html");
-//            options.setOutputFormat("html");
-//            task.setRenderOption(options);
-//
-//            // Cross our fingers and hope everything is set
-//            try {
-//                task.run();
-//            } catch (Exception e) {
-//            }
+            PDFRenderOption options = new PDFRenderOption();
+            options.setOutputStream(output);
+            options.setOutputFormat(an.value());
+            task.setRenderOption(options);
+            // Cross our fingers and hope everything is set
+            try {
+                task.render();
+            } catch (Exception e) {
+                throw new ReportException(e);
+            }
 
         }
 
