@@ -26,8 +26,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -78,6 +80,11 @@ public class BirtRenderTest {
     @Inject @Birt @PDF
     private ReportRenderer<Report> pdfRenderer;
 
+    @Produces @Named("birtRuntimeHome")
+    public String getEngineHome() {
+        return "D:/temp/birt-runtime-2_6_2/ReportEngine";
+    }
+    
     @Test
     public void renderReport() throws ReportException, IOException {
         BirtSeamReportDefinition reportDefinition = loader.loadReportDefinition(sourceReport);

@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 	<name>Seam Reports Implementation (BIRT)</name>
 	<properties>
-		<birt.version>2.3.2</birt.version>
+		<birt.version>2.6.2</birt.version>
 	</properties>
 
 	<dependencies>
@@ -24,72 +24,12 @@
 		</dependency>
 
 		<!-- BIRT Dependencies -->
-		<!-- 
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.6.1</version>
-		</dependency>
-		 -->
-
+		<!-- -->
 		<dependency>
 			<groupId>org.eclipse.birt</groupId>
-			<artifactId>chartengineapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>coreapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>dataadapterapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>engineapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>modelapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>scriptapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>dteapi</artifactId>
-			<version>${birt.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
-			<version>3.8.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>rhino</groupId>
-			<artifactId>js</artifactId>
-			<version>1.6R7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>apache-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.2</version>
+			<artifactId>org.eclipse.birt.report.engine</artifactId>
+			<version>2.6.2</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

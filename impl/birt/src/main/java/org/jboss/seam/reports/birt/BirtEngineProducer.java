@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.inject.Named;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
@@ -38,11 +39,9 @@ public class BirtEngineProducer {
 
     @Produces @Birt
     @ApplicationScoped
-    public IReportEngine produceEngine(BirtRuntimeConfig runtimeConfig) throws BirtException {
+    public IReportEngine produceEngine(@Named("birtRuntimeHome") String birtRuntimeHome) throws BirtException {
         EngineConfig config = new EngineConfig();
-        config.setBIRTHome(runtimeConfig.getBirtHome());
-        config.setEngineHome(runtimeConfig.getEngineHome());
-        //config.setLogConfig("D:/temp/birt-runtime-2_6_2/log", Level.FINEST);
+        config.setEngineHome(birtRuntimeHome);
         try {
             Platform.startup(config); // If using RE API in Eclipse/RCP application this is not needed.
         } catch (BirtException e) {
