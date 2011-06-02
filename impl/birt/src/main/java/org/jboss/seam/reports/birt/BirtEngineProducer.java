@@ -27,8 +27,6 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
-import org.jboss.seam.reports.birt.Birt;
-import org.jboss.seam.reports.birt.BirtRuntimeConfig;
 
 /**
  * This is needed by the app developer
